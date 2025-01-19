@@ -1,13 +1,25 @@
-#include <iostream>
+/*
+ * Act 1.3 Evidencia Conceptos Básicos y Algoritmos Fundamentales
+ Programa para ordenar registros de bitácora por fecha
+ * Autores: 
+ * José Leobardo Navarro Márquez - A01541324
+ * 
+ * 
+ * Fecha: 18/01/2025
+*/
+
+//Incluir bibliotecas necesarias
+#include <algorithm>
 #include <fstream>
+#include <iostream>
 #include <sstream>
-#include <vector>
 #include <string>
 #include <unordered_map>
-#include <algorithm>
+#include <vector>
 
 using namespace std;
 
+// Estructura para almacenar un registro de bitácora
 struct LogEntry {
     string date;  
     string time;
