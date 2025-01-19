@@ -67,8 +67,13 @@ void loadLogFile(const string& filename, vector<LogEntry>& logs) {
         // Convertir mes a número
         string monthNumber = getMonthNumber(month);
 
-        // Formatear la fecha como MM-DD
+        // Formatear el día a dos dígitos
         if (day.back() == ',') day.pop_back(); // Eliminar cualquier coma
+        if (stoi(day) < 10) { // Si el día es menor a 10, agregar un 0
+            day = "0" + day;
+        }
+
+        // Formatear la fecha como MM-DD
         string date = monthNumber + "-" + day;
 
         // Almacenar el registro en el vector
@@ -120,9 +125,7 @@ void quickSort(vector<LogEntry>& logs, int low, int high) {
     }
 }
 
-
-
-
+//Función principal 
 int main() {
     vector<LogEntry> logs;
     string inputFile = "bitacora.txt";
@@ -141,16 +144,7 @@ int main() {
 
     // Guardar registros ordenados en un archivo
     writeLogsToFile(outputFile, logs);
-    /*
 
-    // Solicitar fechas al usuario
-    string startDate, endDate;
-    cout << "Ingrese la fecha de inicio (MM-DD): ";
-    cin >> startDate;
-    cout << "Ingrese la fecha de fin (MM-DD): ";
-    cin >> endDate;
-
-*/
 
 
     return 0;
