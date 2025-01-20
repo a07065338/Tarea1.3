@@ -3,7 +3,7 @@
  Programa para ordenar registros de bitácora por fecha
  * Autores: 
  * José Leobardo Navarro Márquez - A01541324
- * 
+ * Edgar Daniel Osorio Castaños - A07065338
  * 
  * Fecha: 18/01/2025
 */
