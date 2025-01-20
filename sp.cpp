@@ -125,6 +125,18 @@ void quickSort(vector<LogEntry>& logs, int low, int high) {
     }
 }
 
+// Función para realizar búsqueda binaria en el rango de fechas
+pair<int, int> binarySearchRange(const vector<LogEntry>& logs, const string& startDate, const string& endDate) {
+    auto startIt = lower_bound(logs.begin(), logs.end(), LogEntry{startDate, "", "", ""});
+    auto endIt = upper_bound(logs.begin(), logs.end(), LogEntry{endDate, "23:59:59", "", ""});
+    
+    if (startIt == logs.end() || startIt->date > endDate) {
+        return {-1, -1}; // No hay registros en el rango
+    }
+    
+    return {distance(logs.begin(), startIt), distance(logs.begin(), endIt) - 1};
+}
+
 //Función principal 
 int main() {
     vector<LogEntry> logs;
@@ -145,7 +157,24 @@ int main() {
     // Guardar registros ordenados en un archivo
     writeLogsToFile(outputFile, logs);
 
+    // Solicitar fechas al usuario
+    string startDate, endDate;
+    cout << "Ingrese la fecha de inicio (MM-DD): ";
+    cin >> startDate;
+    cout << "Ingrese la fecha de fin (MM-DD): ";
+    cin >> endDate;
 
+    // Buscar registros dentro del rango de fechas usando búsqueda binaria
+    auto range = binarySearchRange(logs, startDate, endDate);
+
+    if (range.first == -1) {
+        cout << "No se encontraron registros en el rango de fechas especificado." << endl;
+    } else {
+        cout << "Registros encontrados en el rango de fechas:" << endl;
+        for (int i = range.first; i <= range.second; ++i) {
+            cout << logs[i].date << " " << logs[i].time << " " << logs[i].ip << " - " << logs[i].message << endl;
+        }
+    }
 
     return 0;
 }
