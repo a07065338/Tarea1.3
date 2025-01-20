@@ -32,7 +32,15 @@ struct LogEntry {
     }
 };
 
-// Función para obtener el número del mes desde su nombre abreviado
+
+/*
+* Función para obtener el número del mes desde su nombre abreviado
+* Complejidad: O(1).
+* Parametros:
+* month Nombre abreviado del mes
+* Return: 
+*  Número del mes en formato de dos dígitos
+*/
 string getMonthNumber(const string& month) {
     unordered_map<string, string> monthMap = {
         {"Jan", "01"}, {"Feb", "02"}, {"Mar", "03"}, {"Apr", "04"},
@@ -47,7 +55,13 @@ string getMonthNumber(const string& month) {
     return "00"; // En caso de que el mes no sea válido
 }
 
-// Función para cargar los datos desde el archivo
+/*
+* Función para cargar los datos desde el archivo
+* Complejidad: O(n), donde n es la cantidad de líneas en el archivo.
+* Parametros:
+* filename Nombre del archivo a cargar
+* logs Vector donde se almacenarán los registros
+*/
 void loadLogFile(const string& filename, vector<LogEntry>& logs) {
     ifstream file(filename);
     if (!file.is_open()) {
@@ -83,7 +97,14 @@ void loadLogFile(const string& filename, vector<LogEntry>& logs) {
     file.close();
 }
 
-// Función para escribir los registros ordenados en un archivo
+
+/*
+* Función para escribir los registros ordenados en un archivo
+* Complejidad: O(n), donde n es la cantidad de registros.
+* Parametros:
+* outputFile Nombre del archivo de salida
+* logs Vector con los registros a escribir
+*/
 void writeLogsToFile(const string& outputFile, const vector<LogEntry>& logs) {
     ofstream file(outputFile);
     if (!file.is_open()) {
@@ -101,6 +122,14 @@ void writeLogsToFile(const string& outputFile, const vector<LogEntry>& logs) {
 
 // Implementación de Quick Sort
 
+/*
+* Función para particionar el vector de registros
+* Complejidad: O(n), donde n es la cantidad de registros.
+* Parametros:
+* logs Vector con los registros a ordenar
+* low Índice del primer elemento
+* high Índice del último elemento
+*/
 int partition(vector<LogEntry>& logs, int low, int high) {
     LogEntry pivot = logs[high];
     int i = low - 1;
@@ -115,6 +144,14 @@ int partition(vector<LogEntry>& logs, int low, int high) {
     return i + 1;
 }
 
+/*
+* Función para ordenar los registros usando Quick Sort
+* Complejidad: O(n log n) en promedio, O(n^2) en el peor caso.
+* Parametros:
+* logs Vector con los registros a ordenar
+* low Índice del primer elemento
+* high Índice del último elemento
+*/
 void quickSort(vector<LogEntry>& logs, int low, int high) {
     if (low < high) {
         int pi = partition(logs, low, high);
@@ -124,6 +161,15 @@ void quickSort(vector<LogEntry>& logs, int low, int high) {
 }
 
 // Función para realizar búsqueda binaria en el rango de fechas
+/*
+* Función para buscar registros dentro de un rango de fechas
+* Complejidad: O(log n) para cada búsqueda.
+* Parametros:
+* logs Vector con los registros ordenados
+* startDate Fecha de inicio del rango
+* endDate Fecha de fin del rango
+* Return: Par de índices que delimitan el rango de fechas
+*/
 pair<int, int> binarySearchRange(const vector<LogEntry>& logs, const string& startDate, const string& endDate) {
     auto startIt = lower_bound(logs.begin(), logs.end(), LogEntry{startDate, "", "", ""});
     auto endIt = upper_bound(logs.begin(), logs.end(), LogEntry{endDate, "23:59:59", "", ""});
