@@ -4,11 +4,11 @@
  * Autores: 
  * José Leobardo Navarro Márquez - A01541324
  * Edgar Daniel Osorio Castaños - A07065338
- * 
+ * Natalia Quiroga Colorado - a01722353
  * Fecha: 18/01/2025
 */
 
-//Incluir bibliotecas necesarias
+// Incluir bibliotecas necesarias
 #include <algorithm>
 #include <fstream>
 #include <iostream>
@@ -99,8 +99,6 @@ void writeLogsToFile(const string& outputFile, const vector<LogEntry>& logs) {
     cout << "Registros ordenados guardados en el archivo: " << outputFile << endl;
 }
 
-
-
 // Implementación de Quick Sort
 
 int partition(vector<LogEntry>& logs, int low, int high) {
@@ -137,7 +135,7 @@ pair<int, int> binarySearchRange(const vector<LogEntry>& logs, const string& sta
     return {distance(logs.begin(), startIt), distance(logs.begin(), endIt) - 1};
 }
 
-//Función principal 
+// Función principal 
 int main() {
     vector<LogEntry> logs;
     string inputFile = "bitacora.txt";
@@ -145,7 +143,7 @@ int main() {
 
     // Cargar datos del archivo
     loadLogFile(inputFile, logs);
-    // manejo de excepción
+    // Manejo de excepción
     if (logs.empty()) {
         cout << "No se encontraron registros para procesar." << endl;
         return 1;
@@ -178,3 +176,11 @@ int main() {
 
     return 0;
 }
+
+/* Complejidades de los algoritmos utilizados:
+ * - Carga del archivo (`loadLogFile`): O(n), donde n es la cantidad de líneas en el archivo.
+ * - Quick Sort (`quickSort`): O(n log n) en promedio, O(n^2) en el peor caso.
+ * - Búsqueda binaria (`binarySearchRange`): O(log n) para cada búsqueda.
+ * - Escritura en el archivo (`writeLogsToFile`): O(n).
+ * Complejidad total aproximada del programa: O(n log n).
+ */
