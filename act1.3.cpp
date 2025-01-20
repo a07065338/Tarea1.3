@@ -163,9 +163,9 @@ void quickSort(vector<LogEntry>& logs, int low, int high) {
 }
 
 
-// Función para realizar búsqueda binaria en el rango de fechas
+// Implementación de búsqueda binaria
 /*
-* Busca registros dentro de un rango de fechas
+* Funcion para buscar registros dentro de un rango de fechas
 * Complejidad: O(log n) para cada búsqueda.
 * Parametros:
 * logs Vector con los registros ordenados
