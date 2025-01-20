@@ -55,6 +55,7 @@ string getMonthNumber(const string& month) {
     return "00"; // En caso de que el mes no sea válido
 }
 
+
 /*
 * Función para cargar los datos desde el archivo
 * Complejidad: O(n), donde n es la cantidad de líneas en el archivo.
@@ -120,8 +121,8 @@ void writeLogsToFile(const string& outputFile, const vector<LogEntry>& logs) {
     cout << "Registros ordenados guardados en el archivo: " << outputFile << endl;
 }
 
-// Implementación de Quick Sort
 
+// Implementación de Quick Sort
 /*
 * Función para particionar el vector de registros
 * Complejidad: O(n), donde n es la cantidad de registros.
@@ -144,6 +145,7 @@ int partition(vector<LogEntry>& logs, int low, int high) {
     return i + 1;
 }
 
+
 /*
 * Función para ordenar los registros usando Quick Sort
 * Complejidad: O(n log n) en promedio, O(n^2) en el peor caso.
@@ -160,9 +162,10 @@ void quickSort(vector<LogEntry>& logs, int low, int high) {
     }
 }
 
+
 // Función para realizar búsqueda binaria en el rango de fechas
 /*
-* Función para buscar registros dentro de un rango de fechas
+* Busca registros dentro de un rango de fechas
 * Complejidad: O(log n) para cada búsqueda.
 * Parametros:
 * logs Vector con los registros ordenados
@@ -170,19 +173,25 @@ void quickSort(vector<LogEntry>& logs, int low, int high) {
 * endDate Fecha de fin del rango
 * Return: Par de índices que delimitan el rango de fechas
 */
-pair<int, int> binarySearchRange(const vector<LogEntry>& logs, const string& startDate, const string& endDate) {
+pair<int, int> binarySearch(const vector<LogEntry>& logs, const string& startDate, const string& endDate) {
     auto startIt = lower_bound(logs.begin(), logs.end(), LogEntry{startDate, "", "", ""});
     auto endIt = upper_bound(logs.begin(), logs.end(), LogEntry{endDate, "23:59:59", "", ""});
     
-    if (startIt == logs.end() || startIt->date > endDate) {
+    if (endIt == logs.end() || endIt->date < startDate) {
         return {-1, -1}; // No hay registros en el rango
+    }
+    
+    if (startIt == logs.end() || startIt->date > startDate) {
+    int endIndex = (endIt == logs.end()) ? logs.size() - 1 : distance(logs.begin(), endIt) - 1;
+    return {distance(logs.begin(), startIt), endIndex};
     }
     
     return {distance(logs.begin(), startIt), distance(logs.begin(), endIt) - 1};
 }
 
-// Función principal 
+// Función principal de la aplicación
 int main() {
+    // Variables para almacenar registros
     vector<LogEntry> logs;
     string inputFile = "bitacora.txt";
     string outputFile = "sorted_logs.txt";
@@ -209,7 +218,7 @@ int main() {
     cin >> endDate;
 
     // Buscar registros dentro del rango de fechas usando búsqueda binaria
-    auto range = binarySearchRange(logs, startDate, endDate);
+    auto range = binarySearch(logs, startDate, endDate);
 
     if (range.first == -1) {
         cout << "No se encontraron registros en el rango de fechas especificado." << endl;
