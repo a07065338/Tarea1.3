@@ -7,6 +7,7 @@
  * Fecha: 24/01/2025
 */
 
+// Incluir las librerías necesarias para el programa asi como el header
 #include "doubly_linked_list.h"
 #include <iostream>
 #include <fstream>
