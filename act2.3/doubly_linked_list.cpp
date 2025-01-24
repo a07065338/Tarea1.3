@@ -1,59 +1,24 @@
-/*
- * Ordenar registros de bitácora usando una lista doblemente enlazada.
- * Autores:
- * José Leobardo Navarro Márquez - A01541324
- * Edgar Daniel Osorio Castaños - A07065338
- * Natalia Quiroga Colorado - A01722353
- * Fecha: 24/01/2025
-*/
-
+// archivo de implementación de la lista doblemente enlazada
+#include "doubly_linked_list.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <string>
-#include <iomanip>
 #include <unordered_map>
 using namespace std;
 
-// Estructura para almacenar un registro de bitácora
-struct LogEntry {
-    string date;   // Fecha en formato MM-DD
-    string time;   // Hora en formato hh:mm:ss
-    string ip;     // Dirección IP 
-    string message; // Mensaje de error
-};
-
-// Nodo para la lista doblemente enlazada
-struct Node {
-    LogEntry data; // Registro de bitácora almacenado
-    Node* next;    // Puntero al siguiente nodo
-    Node* prev;    // Puntero al nodo anterior
-
-    Node(const LogEntry& log) : data(log), next(nullptr), prev(nullptr) {}
-};
-
-// Clase para la lista doblemente enlazada
-class DoublyLinkedList {
-private:
-    Node* head; // Puntero al primer nodo de la lista
-    Node* tail; // Puntero al último nodo de la lista
-
-    // Función recursiva para merge sort
-    Node* mergeSort(Node* head);
-    Node* merge(Node* left, Node* right);
-
-public:
-    DoublyLinkedList() : head(nullptr), tail(nullptr) {}
-    ~DoublyLinkedList();
-
-    void append(const LogEntry& log);
-    void sortByIP();
-    void printRange(const string& startIP, const string& endIP, ofstream& outFile);
-    void printToFile(const string& filename);
-};
+/*
+ * Constructor del nodo.
+ * @param log Registro de bitácora a almacenar.
+ */
+Node::Node(const LogEntry& log) : data(log), next(nullptr), prev(nullptr) {}
 
 /*
- * Destructor de la lista doblemente enlazada
+ * Constructor de la lista doblemente enlazada.
+ */
+DoublyLinkedList::DoublyLinkedList() : head(nullptr), tail(nullptr) {}
+
+/**
+ * Destructor de la lista doblemente enlazada.
  * Libera la memoria ocupada por los nodos de la lista.
  */
 DoublyLinkedList::~DoublyLinkedList() {
@@ -82,10 +47,10 @@ void DoublyLinkedList::append(const LogEntry& log) {
 }
 
 /*
- * Fusiona dos listas ordenadas.
+ * Fusiona dos sublistas ordenadas.
  * Complejidad: O(n).
- * @param left Puntero al primer nodo de la lista izquierda.
- * @param right Puntero al primer nodo de la lista derecha.
+ * @param left Puntero al primer nodo de la sublista izquierda.
+ * @param right Puntero al primer nodo de la sublista derecha.
  * @return Puntero al primer nodo de la lista fusionada.
  */
 Node* DoublyLinkedList::merge(Node* left, Node* right) {
@@ -106,9 +71,9 @@ Node* DoublyLinkedList::merge(Node* left, Node* right) {
 }
 
 /*
- * Ordena la lista utilizando merge sort.
+ * Ordena una sublista utilizando merge sort.
  * Complejidad: O(n log n).
- * @param head Puntero al primer nodo de la lista a ordenar.
+ * @param head Puntero al primer nodo de la sublista.
  * @return Puntero al primer nodo de la lista ordenada.
  */
 Node* DoublyLinkedList::mergeSort(Node* head) {
@@ -132,7 +97,7 @@ Node* DoublyLinkedList::mergeSort(Node* head) {
     return merge(left, right);
 }
 
-/*
+/**
  * Ordena la lista por dirección IP.
  * Complejidad: O(n log n).
  */
@@ -143,7 +108,7 @@ void DoublyLinkedList::sortByIP() {
 }
 
 /*
- * Imprime los registros que están en el rango de IPs especificado.
+ * Imprime los registros que están en un rango de IPs especificado.
  * Complejidad: O(n).
  * @param startIP IP inicial del rango.
  * @param endIP IP final del rango.
@@ -223,50 +188,9 @@ void loadLogFile(const string& filename, DoublyLinkedList& list) {
 
         string date = monthNumber + "-" + day;
 
-        // Mantener la IP con puerto
+        // Agregar registro a la lista
         list.append({date, time, ip, message});
     }
 
     file.close();
-}
-
-/*
- * Función principal del programa.
- */
-int main() {
-    DoublyLinkedList logs;
-    string inputFile = "bitacora.txt";
-    string outputFile = "sorted_by_ip.txt";
-
-    // Cargar registros desde el archivo
-    loadLogFile(inputFile, logs);
-
-    // Ordenar registros por IP
-    logs.sortByIP();
-
-    // Guardar registros ordenados en un archivo
-    logs.printToFile(outputFile);
-    cout << "Registros ordenados por IP guardados en: " << outputFile << endl;
-
-    // Solicitar rango de IPs al usuario
-    string startIP, endIP;
-    cout << "Ingrese la IP de inicio: ";
-    cin >> startIP;
-    cout << "Ingrese la IP de fin: ";
-    cin >> endIP;
-
-    // Crear archivo para el rango de búsqueda
-    ofstream rangeFile("range_output.txt");
-    if (!rangeFile.is_open()) {
-        cerr << "Error al abrir el archivo de salida para el rango." << endl;
-        return 1;
-    }
-
-    // Imprimir registros en el rango especificado
-    logs.printRange(startIP, endIP, rangeFile);
-
-    rangeFile.close();
-    cout << "Registros en el rango guardados en: range_output.txt" << endl;
-
-    return 0;
 }
