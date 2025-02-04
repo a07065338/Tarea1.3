@@ -170,3 +170,7 @@ int main() {
 
     return 0; // Indicar ejecución exitosa
 }
+
+/**
+ * Complejidad: O(N log N), donde N es la cantidad de IPs distintas en el archivo de bitácora. (16825 registros en el archivo de prueba)
+ */
