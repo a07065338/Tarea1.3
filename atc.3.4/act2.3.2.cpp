@@ -1,3 +1,8 @@
+/**
+ * Corrrección de ordenamiento de ips en bitácora
+ */
+
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
